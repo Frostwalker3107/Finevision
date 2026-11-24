@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="WARN" monitorInterval="60">
+
+    <Properties>
+        <Property name="APP_NAME">finevision-backend</Property>
+
+        <Property name="LOG_DIR">
+            ${env:FINEVISION_LOG_DIR:-${sys:user.home}/Finevision/logs}
+        </Property>
+
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %c{1.} - %msg%n%throwable
+        </Property>
+    </Properties>
+
+    <Appenders>
+
+        <!-- Console Appender -->
+        <Console name="Console"
+                 target="SYSTEM_OUT">
+
+            <PatternLayout
+                    pattern="${LOG_PATTERN}"/>
+
+        </Console>
+
+        <!-- Rolling File Appender -->
+        <RollingFile
+                name="ApplicationFile"
+                fileName="${LOG_DIR}/application.log"
+                filePattern="${LOG_DIR}/archived/${APP_NAME}-%d{yyyy-MM-dd}-%i.log.gz"
+                append="true"
+                immediateFlush="true">
+
+            <PatternLayout
+                    pattern="${LOG_PATTERN}"/>
+
+            <Policies>
+
+                <!-- Daily rollover -->
+                <TimeBasedTriggeringPolicy
+                        interval="1"
+                        modulate="true"/>
+
+                <!-- Size-based rollover -->
+                <SizeBasedTriggeringPolicy
+                        size="10 MB"/>
+
+            </Policies>
+
+            <DefaultRolloverStrategy max="30"/>
+
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <!-- Application logging -->
+        <Logger
+                name="com.finevision.backend"
+                level="DEBUG"
+                additivity="false">
+
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="ApplicationFile"/>
+
+        </Logger>
+
+        <!-- Hibernate SQL logging -->
+        <Logger
+                name="org.hibernate.SQL"
+                level="WARN"/>
+
+        <!-- Spring framework -->
+        <Logger
+                name="org.springframework"
+                level="INFO"/>
+
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="ApplicationFile"/>
+        </Root>
+
+    </Loggers>
+
+</Configuration>
