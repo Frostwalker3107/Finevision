@@ -8,11 +8,96 @@ export const createAppTheme = (mode) => {
 
   const { typography, components } = ui;
 
+  const isLight = mode === "light";
+
+  // Centralized application color palette
+  const colors = {
+    // Brand
+    primary: isLight ? "#222151" : "#55B9A6",
+    white: "#FFFFFF",
+
+    // Navbar
+    navbar: isLight ? "#222151" : "#35434A",
+    navbarText: "#FFFFFF",
+
+    // Backgrounds
+    background: isLight ? "#FFFFFF" : "#171D20",
+    paper: isLight ? "#FFFFFF" : "#242D31",
+
+    // Text
+    textPrimary: isLight ? "#222151" : "#F2F5F5",
+    textSecondary: isLight ? "#666680" : "#AAB8B9",
+
+    // Borders
+    divider: isLight ? "#E5E5EF" : "#39474A",
+
+    // Interactive states
+    hover: isLight
+      ? "rgba(34, 33, 81, 0.04)"
+      : "rgba(85, 185, 166, 0.08)",
+
+    selected: isLight
+      ? "rgba(34, 33, 81, 0.08)"
+      : "rgba(85, 185, 166, 0.16)",
+
+    // Table header
+    tableHeader: isLight ? "#F5F5FA" : "#2D393D",
+
+    // Primary button
+    primaryHover: isLight ? "#171638" : "#419B89",
+
+    // Navbar interactions
+    navbarHover: "rgba(255, 255, 255, 0.10)",
+    navbarSelected: "rgba(255, 255, 255, 0.18)",
+  };
+
   const spacing = (value) => `${value * 4}px`;
 
   return createTheme({
     palette: {
       mode,
+
+      primary: {
+        main: colors.primary,
+        light: isLight ? "#414170" : "#79CEBD",
+        dark: isLight ? "#171638" : "#358675",
+        contrastText: colors.white,
+      },
+
+      secondary: {
+        main: isLight ? "#FFFFFF" : "#55B9A6",
+        contrastText: isLight ? "#222151" : "#171D20",
+      },
+
+      background: {
+        default: colors.background,
+        paper: colors.paper,
+      },
+
+      text: {
+        primary: colors.textPrimary,
+        secondary: colors.textSecondary,
+      },
+
+      divider: colors.divider,
+
+      action: {
+        hover: colors.hover,
+        selected: colors.selected,
+
+        disabled: isLight
+          ? "rgba(34, 33, 81, 0.35)"
+          : "rgba(255, 255, 255, 0.35)",
+      },
+
+      // Custom navbar palette
+      navbar: {
+        main: colors.navbar,
+        contrastText: colors.navbarText,
+        hover: colors.navbarHover,
+        selected: colors.navbarSelected,
+        divider: colors.divider,
+      },
     },
 
     shape: {
@@ -96,6 +181,8 @@ export const createAppTheme = (mode) => {
           body: {
             fontSize: `${typography.body}px`,
             fontFamily: typography.fontFamily,
+            backgroundColor: colors.background,
+            color: colors.textPrimary,
           },
 
           "*": {
@@ -114,6 +201,24 @@ export const createAppTheme = (mode) => {
             minHeight: components.buttonHeight,
             borderRadius: ui.borderRadius,
             padding: `${spacing(0.5)} ${spacing(1.5)}`,
+          },
+
+          containedPrimary: {
+            backgroundColor: colors.primary,
+            color: isLight ? colors.white : "#171D20",
+
+            "&:hover": {
+              backgroundColor: colors.primaryHover,
+            },
+          },
+
+          outlinedPrimary: {
+            borderColor: colors.primary,
+            color: colors.primary,
+
+            "&:hover": {
+              backgroundColor: colors.hover,
+            },
           },
         },
       },
@@ -155,6 +260,7 @@ export const createAppTheme = (mode) => {
           root: {
             fontSize: `${typography.input}px`,
             minHeight: components.inputHeight,
+            color: colors.textPrimary,
           },
 
           input: {
@@ -164,10 +270,33 @@ export const createAppTheme = (mode) => {
         },
       },
 
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: colors.divider,
+          },
+
+          root: {
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: colors.primary,
+            },
+
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: colors.primary,
+            },
+          },
+        },
+      },
+
       MuiInputLabel: {
         styleOverrides: {
           root: {
             fontSize: `${typography.input}px`,
+            color: colors.textSecondary,
+
+            "&.Mui-focused": {
+              color: colors.primary,
+            },
           },
         },
       },
@@ -192,10 +321,27 @@ export const createAppTheme = (mode) => {
           root: {
             padding: `${components.tableCellVerticalPadding}px ${components.tableCellHorizontalPadding}px`,
             fontSize: `${typography.table}px`,
+            borderColor: colors.divider,
           },
 
           head: {
             fontWeight: 600,
+            color: colors.textPrimary,
+            backgroundColor: colors.tableHeader,
+          },
+
+          body: {
+            color: colors.textPrimary,
+          },
+        },
+      },
+
+      MuiTableRow: {
+        styleOverrides: {
+          root: {
+            "&:hover": {
+              backgroundColor: colors.hover,
+            },
           },
         },
       },
@@ -225,6 +371,14 @@ export const createAppTheme = (mode) => {
           root: {
             minHeight: components.inputHeight,
             fontSize: `${typography.input}px`,
+
+            "&.Mui-selected": {
+              backgroundColor: colors.selected,
+            },
+
+            "&.Mui-selected:hover": {
+              backgroundColor: colors.hover,
+            },
           },
         },
       },
@@ -241,6 +395,7 @@ export const createAppTheme = (mode) => {
             padding: spacing(components.dialogTitlePadding),
             fontSize: `${typography.sectionTitle}px`,
             fontWeight: 600,
+            color: colors.textPrimary,
           },
         },
       },
@@ -266,6 +421,35 @@ export const createAppTheme = (mode) => {
         styleOverrides: {
           root: {
             minHeight: `${layout.header.height}px`,
+          },
+        },
+      },
+
+      MuiAppBar: {
+        styleOverrides: {
+          root: {
+            backgroundColor: colors.navbar,
+            color: colors.navbarText,
+            boxShadow: "none",
+            borderBottom: `1px solid ${colors.divider}`,
+          },
+        },
+      },
+
+      MuiDrawer: {
+        styleOverrides: {
+          paper: {
+            backgroundColor: colors.paper,
+            color: colors.textPrimary,
+            borderRight: `1px solid ${colors.divider}`,
+          },
+        },
+      },
+
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            backgroundImage: "none",
           },
         },
       },

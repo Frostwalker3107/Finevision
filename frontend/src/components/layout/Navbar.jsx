@@ -10,7 +10,7 @@ import {
 
 import { useLocation, useNavigate } from "react-router-dom";
 
-import AppLogo from "../../assets/react.svg";
+import AppLogo from "../../assets/eye-transparent-background.svg";
 
 import { APP_CONFIG } from "../../config/appConfig";
 import { NAVIGATION_CONFIG } from "../../config/navigationConfig";
@@ -28,12 +28,12 @@ const Navbar = () => {
   return (
     <AppBar
       position="sticky"
-      color="default"
       elevation={0}
       sx={{
+        bgcolor: "navbar.main",
+        color: "navbar.contrastText",
         borderBottom: 1,
-        borderColor: "divider",
-        bgcolor: "background.paper",
+        borderColor: "navbar.divider",
       }}
     >
       <Toolbar
@@ -77,7 +77,11 @@ const Navbar = () => {
             <Typography
               variant="subtitle1"
               noWrap
-              sx={{ fontWeight: 700 }}
+              sx={{
+                fontWeight: 500,
+                fontSize: 25,
+                color: "inherit",
+              }}
             >
               {APP_CONFIG.app.name}
             </Typography>
@@ -95,6 +99,7 @@ const Navbar = () => {
             flexGrow: 1,
             overflowX: "auto",
             scrollbarWidth: "none",
+
             "&::-webkit-scrollbar": {
               display: "none",
             },
@@ -110,8 +115,8 @@ const Navbar = () => {
               <Button
                 key={item.id}
                 onClick={() => navigate(item.path)}
-                color={selected ? "primary" : "inherit"}
-                variant={selected ? "contained" : "text"}
+                color="inherit"
+                variant="text"
                 startIcon={
                   <Icon
                     sx={{
@@ -126,23 +131,21 @@ const Navbar = () => {
                   fontSize: `${APP_CONFIG.ui.typography.navigation}px`,
                   fontWeight: selected ? 600 : 400,
                   borderRadius: 1.5,
+                  color: "navbar.contrastText",
+
+                  bgcolor: selected
+                    ? "navbar.selected"
+                    : "transparent",
+
+                  "&:hover": {
+                    bgcolor: "navbar.hover",
+                  },
                 }}
               >
                 {item.label}
               </Button>
             );
           })}
-        </Box>
-
-        {/* Theme Toggle */}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            flexShrink: 0,
-          }}
-        >
-          <ThemeToggle />
         </Box>
       </Toolbar>
     </AppBar>

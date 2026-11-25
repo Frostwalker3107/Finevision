@@ -30,7 +30,7 @@ const getInitialTheme = () => {
       return savedTheme;
     }
   } catch {
-    // Fall back to light mode if localStorage is unavailable.
+    // Fall back to light mode.
   }
 
   return "light";
@@ -45,7 +45,9 @@ const AppThemeProvider = ({ children }) => {
   );
 
   const setThemeMode = useCallback((newMode) => {
-    setMode(newMode);
+    if (newMode === "light" || newMode === "dark") {
+      setMode(newMode);
+    }
   }, []);
 
   const toggleTheme = useCallback(() => {
