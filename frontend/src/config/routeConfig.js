@@ -8,12 +8,22 @@ import {
 import { LuGlasses } from "react-icons/lu";
 
 export const ROUTE_CONFIG = {
+  home: {
+    id: "home",
+    path: "/",
+    title: "Home",
+    icon: People,
+    component: lazy(() => import("../pages/home/Home")),
+    showInNavigation: false,
+    showInHeader: true,
+  },
+
   patients: {
     id: "patients",
     path: "/patients",
     title: "Patients",
     icon: People,
-    component: lazy(() => import("../pages/Sample/SamplePage")),
+    component: lazy(() => import("../pages/patient/Patients")),
     showInNavigation: true,
     showInHeader: true,
   },
@@ -23,7 +33,7 @@ export const ROUTE_CONFIG = {
     path: "/reports",
     title: "Reports",
     icon: Assessment,
-    component: lazy(() => import("../pages/Sample/SamplePage")),
+    component: lazy(() => import("../pages/report/Reports")),
     showInNavigation: true,
     showInHeader: true,
   },
@@ -33,7 +43,7 @@ export const ROUTE_CONFIG = {
     path: "/orders",
     title: "Orders",
     icon: LuGlasses,
-    component: lazy(() => import("../pages/Sample/SamplePage")),
+    component: lazy(() => import("../pages/order/Orders")),
     showInNavigation: true,
     showInHeader: true,
   },
