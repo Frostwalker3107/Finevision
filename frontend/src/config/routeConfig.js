@@ -28,6 +28,16 @@ export const ROUTE_CONFIG = {
     showInHeader: true,
   },
 
+  singlePatient: {
+    id: "singlePatient",
+    path: "/patients/:srNo/:section",
+    title: "Patient Details",
+    icon: People,
+    component: lazy(() => import("../pages/Sample/SamplePage")),
+    showInNavigation: false,
+    showInHeader: true,
+  },
+
   reports: {
     id: "reports",
     path: "/reports",

@@ -57,17 +57,34 @@ export const response = {
   ]
 }
 const PatientService = {
-  getPatientData: async () => {
-    try{
+    getPatientData: async () => {
+        return response;
+    },
+
+    createPatient: async (patientData) => {
+        const nextSrNo =
+            Math.max(
+                0,
+                ...response.data.map(
+                    (patient) => Number(patient.srNo) || 0
+                )
+            ) + 1;
+
+        const newPatient = {
+            ...patientData,
+            srNo: String(nextSrNo),
+        };
+
+        response.data.push(newPatient);
     // const response = await axiosInstance.get("/api/v1/patients"); 1 pagination data , 2. filters /patients?gender=""
 
     // return response.data;
-    return response;
-    }
-    catch(err){
-        return err;
-    }
-  },
+        return {
+            success: true,
+            message: "Patient created successfully",
+            data: newPatient,
+        };
+    },
 };
 
 export default PatientService;
