@@ -23,7 +23,7 @@ export const ROUTE_CONFIG = {
     path: "/patients",
     title: "Patients",
     icon: People,
-    component: lazy(() => import("../pages/Sample/SamplePage")),
+    component: lazy(() => import("../pages/patient/Patients")),
     showInNavigation: true,
     showInHeader: true,
   },
