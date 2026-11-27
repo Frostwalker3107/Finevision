@@ -1,3 +1,4 @@
+
 import { Suspense } from "react";
 
 import {
@@ -13,6 +14,8 @@ import {
 
 import { APP_CONFIG } from "../config/appConfig";
 import { ROUTE_CONFIG } from "../config/routeConfig";
+
+import AppLayout from "../components/layout/AppLayout";
 
 const AppRoutes = () => {
   return (
@@ -31,37 +34,39 @@ const AppRoutes = () => {
       }
     >
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Navigate
-              to={APP_CONFIG.app.defaultRoute}
-              replace
-            />
-          }
-        />
+        <Route element={<AppLayout />}>
+          <Route
+            path="/"
+            element={
+              <Navigate
+                to={APP_CONFIG.app.defaultRoute}
+                replace
+              />
+            }
+          />
 
-        {Object.values(ROUTE_CONFIG).map((route) => {
-          const PageComponent = route.component;
+          {Object.values(ROUTE_CONFIG).map((route) => {
+            const PageComponent = route.component;
 
-          return (
-            <Route
-              key={route.path}
-              path={route.path}
-              element={<PageComponent />}
-            />
-          );
-        })}
+            return (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={<PageComponent />}
+              />
+            );
+          })}
 
-        <Route
-          path="*"
-          element={
-            <Navigate
-              to={APP_CONFIG.app.defaultRoute}
-              replace
-            />
-          }
-        />
+          <Route
+            path="*"
+            element={
+              <Navigate
+                to={APP_CONFIG.app.defaultRoute}
+                replace
+              />
+            }
+          />
+        </Route>
       </Routes>
     </Suspense>
   );

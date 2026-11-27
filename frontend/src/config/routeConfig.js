@@ -8,6 +8,16 @@ import {
 import { LuGlasses } from "react-icons/lu";
 
 export const ROUTE_CONFIG = {
+  home: {
+    id: "home",
+    path: "/",
+    title: "Home",
+    icon: People,
+    component: lazy(() => import("../pages/home/Home")),
+    showInNavigation: false,
+    showInHeader: true,
+  },
+
   patients: {
     id: "patients",
     path: "/patients",
